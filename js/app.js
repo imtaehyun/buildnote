@@ -128,7 +128,7 @@ app.controller('BuildnoteController', ['$scope', '$http',
 
             console.log(JSON.stringify(buildNoteData));
 
-            $.ajax({
+            /*$.ajax({
                 url: 'http://redmine.ssgadm.com/redmine/issues.json',
                 type: 'post',
                 data: buildNoteData,
@@ -142,6 +142,15 @@ app.controller('BuildnoteController', ['$scope', '$http',
                 },
                 success: function(result) {
                     console.log(result);
+                }
+            });*/
+            $http({
+                url: 'http://redmine.ssgadm.com/redmine/issues.json',
+                method: 'POST',
+                data: buildNoteData,
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
                 }
             });
         }
