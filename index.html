@@ -36,7 +36,7 @@
 							<label for="">Redmine No</label>
 							<div class="ui action left icon input">
 								<i class="search icon"></i>
-								<input type="text" placeholder="Redmine #" ng-model="buildNote.task.id">
+								<input type="text" placeholder="Redmine #" ng-model="task.id">
 								<div class="ui teal button" ng-click="redmineSearch('task')">Search</div>	
 							</div>
 						</div>
@@ -44,7 +44,7 @@
 					<div class="six wide column">
 						<div class="field">
 							<label for="">Redmine 내역</label>
-							<input type="text" placeholder="Redmine 내역" ng-model="buildNote.task.subject">
+							<input type="text" placeholder="Redmine 내역" ng-model="task.subject">
 						</div>
 					</div>
 					<div class="three wide column">
@@ -52,7 +52,7 @@
 							<label for="">개발기간 시작일</label>
 							<div class="ui left icon input">
 								<i class="calendar icon"></i>
-								<input type="text" id="startDate" class="datepicker" placeholder="YYYY-MM-DD" ng-model="buildNote.task.start_date">	
+								<input type="text" id="startDate" class="datepicker" placeholder="YYYY-MM-DD" ng-model="task.start_date">	
 							</div>
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 							<label for="">개발기간 종료일</label>
 							<div class="ui left icon input">
 								<i class="calendar icon"></i>
-								<input type="text" id="dueDate" class="datepicker" placeholder="YYYY-MM-DD" ng-model="buildNote.task.due_date">
+								<input type="text" id="dueDate" class="datepicker" placeholder="YYYY-MM-DD" ng-model="task.due_date">
 							</div>
 						</div>
 					</div>
@@ -77,20 +77,18 @@
 						<div class="field">
 							<label for="">요청자/기획담당자</label>
 							<div class="ui fluid search selection dropdown">
-								<input type="hidden" ng-model="buildNote.task.author.name">
+								<input type="hidden" ng-model="task.author.id">
 								<i class="dropdown icon"></i>
 								<div class="default text">요청자/기획담당자</div>
 								<div class="menu">
-									<div class="item" data-value="{{author.no}}" ng-repeat="author in authorList" ng-click="addChangeSystem(author.no)">{{author.name}}</div>
+									<div class="item" data-value="{{author.id}}" value="{{author.id}}" ng-repeat="author in authorList" ng-click="addRequester(author)">{{author.name}}</div>
 								</div>
 							</div>
-
-							<!-- <input type="text" placeholder="요청자/기획담당자" ng-model="buildNote.task.author.name"> -->
 						</div>
 					</div>
 					<div class="four wide column">
 						<div class="field">
-							<label for="">개발/빌드 담당자</label><input type="text" placeholder="개발/빌드 담당자" ng-model="buildNote.task.assigned_to.name">
+							<label for="">개발/빌드 담당자</label><input type="text" placeholder="개발/빌드 담당자" ng-model="task.assigned_to.name">
 						</div>
 					</div>
 					<div class="four wide column">
@@ -111,16 +109,24 @@
 							<label for="">QA 반영일자</label>
 							<div class="ui left icon input">
 								<i class="calendar icon"></i>
-								<input type="text" id="qaDate" class="datepicker" placeholder="YYYY-MM-DD" ng-model="buildNote.qa_date">
+								<input type="text" id="qaDate" class="datepicker" placeholder="YYYY-MM-DD" ng-model="task.qa_date">
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
+					<div class="sixteen wide column">
+						<div class="ui label" ng-repeat="requester in requesters">
+							{{requester.name}}
+							<i class="delete icon" ng-click="delRequester(requester)"></i>
+						</div>
+					</div>
+				</div>
+				<div class="row">
 					<div class="twelve wide column">
-						<div class="ui label" ng-repeat="system in buildNote.changeSystem">
-							{{system}}
-							<i class="delete icon" ng-click="deleteChangeSystem(system)"></i>
+						<div class="ui label" ng-repeat="changeSystem in changeSystems">
+							{{changeSystem}}
+							<i class="delete icon" ng-click="delChangeSystem(changeSystem)"></i>
 						</div>
 					</div>
 				</div>
@@ -134,13 +140,13 @@
 					<div class="four wide column">
 						<div class="field">
 							<label>시스템명</label>
-							<input type="text" ng-model="buildNote.depe_system">
+							<input type="text" ng-model="dependency.system">
 						</div>
 					</div>
 					<div class="eight wide column">
 						<div class="field">
 							<label for="">영향받는 기능/영역</label>
-							<input type="text" ng-model="buildNote.depe_scope">
+							<input type="text" ng-model="dependency.scope">
 						</div>
 					</div>
 				</div>
@@ -154,18 +160,18 @@
 					<div class="four wide column">
 						<div class="ui action left icon input field">
 							<i class="search icon"></i>
-							<input type="text" placeholder="Redmine #" ng-model="buildNote.sql.id">
+							<input type="text" placeholder="Redmine #" ng-model="sql.id">
 							<div class="ui teal button" ng-click="redmineSearch('sql')">Search</div>
 						</div>
 					</div>
 					<div class="eight wide column">
 						<div class="field">
-							<input type="text" placeholder="제목" ng-model="buildNote.sql.subject">
+							<input type="text" placeholder="제목" ng-model="sql.subject">
 						</div>
 					</div>
 					<div class="four wide column">
 						<div class="field">
-							<input type="text" placeholder="상태" ng-model="buildNote.sql.status.name">
+							<input type="text" placeholder="상태" ng-model="sql.status.name">
 						</div>
 					</div>
 				</div>
@@ -178,7 +184,7 @@
 					<div class="sixteen wide column">
 						<div class="field">
 							<label>기획자 테스트 요구사항</label>
-							<textarea placeholder="한 줄에 요구사항 한개씩 작성해주세요." ng-model="buildNote.requirements" ng-list="&#10;" ng-trim="false"></textarea>
+							<textarea placeholder="한 줄에 요구사항 한개씩 작성해주세요." ng-model="requirements" ng-list="&#10;" ng-trim="false"></textarea>
 						</div>
 					</div>
 				</div>
@@ -192,7 +198,7 @@
 					<div class="sixteen wide column">
 						<div class="field">
 							<label>소스 파일 경로</label>
-							<textarea placeholder="한 줄에 파일 한개씩 작성해주세요." ng-model="buildNote.files" ng-list="&#10;" ng-trim="false"></textarea>
+							<textarea placeholder="한 줄에 파일 한개씩 작성해주세요." ng-model="files" ng-list="&#10;" ng-trim="false"></textarea>
 						</div>
 					</div>
 				</div>
@@ -207,12 +213,12 @@
 							<label for="distribution">배포유형</label>
 							<div class="field">
 								<div class="ui radio checkbox">
-									<input type="radio" name="distType" ng-model="buildNote.distType" value="WAR"><label for="">WAR</label>
+									<input type="radio" name="distType" ng-model="distType" value="WAR"><label for="">WAR</label>
 								</div>
 							</div>
 							<div class="field">
 								<div class="ui radio checkbox">
-									<input type="radio" name="distType" ng-model="buildNote.distType" value="JAR"><label for="">JAR</label>
+									<input type="radio" name="distType" ng-model="distType" value="JAR"><label for="">JAR</label>
 								</div>
 							</div>
 						</div>
@@ -220,13 +226,13 @@
 					<div class="four wide column">
 						<div class="field">
 							<label for="">QA WAR 버전</label>
-							<input type="text" placeholder="QA WAR Version" ng-model="buildNote.qaVersion">
+							<input type="text" placeholder="QA WAR Version" ng-model="qaVersion">
 						</div>
 					</div>
 					<div class="ten wide column">
 						<div class="field">
 							<label for="">유의사항</label>
-							<input type="text" placeholder="유의사항" ng-model="buildNote.consideration">
+							<input type="text" placeholder="유의사항" ng-model="consideration">
 						</div>
 					</div>
 				</div>
@@ -243,12 +249,12 @@
 					<div class="content">
 						h2. 개요<br/>
 						<br/>
-						| 요청자 | {{buildNote.task.author.name}} |<br/>
-						| 기획 담당자 | {{buildNote.task.author.name}} |<br/>
-						| 개발/빌드 담당 | {{buildNote.task.assigned_to.name}} |<br/>
-						| 개발 기간 | {{buildNote.task.start_date}} ~ {{buildNote.task.due_date}} |<br/>
-						| QA 반영 일자 | {{buildNote.qa_date}} |<br/>
-						| 대상 서비스 | <span ng-repeat="service in service">{{buildNote.service}}<span ng-if="!$last">, </span></span> |<br/>
+						| 요청자 | {{task.author.name}} |<br/>
+						| 기획 담당자 | {{task.author.name}} |<br/>
+						| 개발/빌드 담당 | {{task.assigned_to.name}} |<br/>
+						| 개발 기간 | {{task.start_date}} ~ {{task.due_date}} |<br/>
+						| QA 반영 일자 | {{qa_date}} |<br/>
+						| 대상 서비스 | <span ng-repeat="service in service">{{service}}<span ng-if="!$last">, </span></span> |<br/>
 						<br/>
 						h2. 개발 SPEC (기능 추가 및 삭제/변경 내역)<br/>
 						<br/>
