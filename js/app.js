@@ -101,7 +101,10 @@ app.controller('BuildnoteController', ['$scope', '$http',
         }
 
         function register() {
-            var buildNoteData = {
+            $http({
+                url: 'http://redmine.ssgadm.com/redmine/issues.json',
+                method: 'POST',
+                data: {
                     "issue": {
                         "project_id": "project-0103",
                         "tracker_id": 13, // 유형-정기배포
@@ -124,34 +127,15 @@ app.controller('BuildnoteController', ['$scope', '$http',
                             "value": $scope.task.due_date // 38 배포일자 YYYY-MM-DD
                         }]
                     }
-                };
-
-            console.log(JSON.stringify(buildNoteData));
-
-            /*$.ajax({
-                url: 'http://redmine.ssgadm.com/redmine/issues.json',
-                type: 'post',
-                data: buildNoteData,
-                dataType: 'json',
-                xhrFields: {
-                    withCredentials: true
                 },
-                crossDomain: true,
-                error: function(xhr, ajaxOptions, thrownError) {
-                    console.error('Invalid username or password. Please try again.');
-                },
-                success: function(result) {
-                    console.log(result);
-                }
-            });*/
-            $http({
-                url: 'http://redmine.ssgadm.com/redmine/issues.json',
-                method: 'POST',
-                data: buildNoteData,
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
+            }).success(function(result) {
+                console.log(result);
+            }).error(function(result) {
+                console.log(result);
             });
         }
 
