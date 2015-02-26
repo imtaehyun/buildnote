@@ -132,10 +132,11 @@ app.controller('BuildnoteController', ['$scope', '$http',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
-            }).success(function(result) {
-                console.log(result);
+            }).success(function(issue) {
+                location.href = 'http://redmine.ssgadm.com/redmine/issues/' + issue.id;
             }).error(function(result) {
                 console.log(result);
+                alert('레드마인 등록중 문제가 발생했습니다.');
             });
         }
 
