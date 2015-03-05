@@ -11,6 +11,9 @@
 		body {
 			font-family: '맑은 고딕', 'NanumGothic', 'MalgunGothic';
 		}
+		header .container .row .col-md-12{
+			border-bottom: 1px solid #eee;
+		}
 		.container {
 			width: 1000px;
 			margin: auto;
@@ -22,13 +25,26 @@
 		textarea {
 			white-space: nowrap;
 		}
+		.checkbox-inline.no_indent {
+			margin-left: 0;
+			margin-right: 10px;
+		}
 		</style>
 	</head>
 	<body ng-controller="InputController">
-		<div class="container">
-			<div class="page-header">
-				<h4>ssg buildnote helper for developer</h4>
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<h4>ssg buildnote helper for developer</h4>	
+					</div>
+					<div class="col-md-6">
+						<a href="#" class="btn pull-right" data-toggle="modal" data-target="#setting"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a>
+					</div>
+				</div>
 			</div>
+		</header>
+		<div class="container">
 			<div class="row">
 				<div class="col-md-2">
 					<label for="">Redmine Task</label>
@@ -67,7 +83,9 @@
 			<div class="row">
 				<div class="col-md-12">
 					<p><strong>변경작업시스템</strong></p>
-					<label class="checkbox-inline" ng-repeat="system in systemList"><input type="checkbox" checklist-value="system" checklist-model="changeSystems">{{system}}</label>
+					<label class="checkbox-inline no_indent" ng-repeat="system in systemList"><input type="checkbox" checklist-value="system" checklist-model="changeSystems">{{system}}</label>
+
+					
 					<!-- <select multiple class="form-control" ng-model="changeSystems">
 						<option value="{{system}}" ng-repeat="system in systemList">{{system}}</option>
 					</select> -->
@@ -76,7 +94,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<p><strong>배포시스템</strong></p>
-					<label class="checkbox-inline" ng-repeat="distSystem in distSystemList"><input type="checkbox" checklist-value="distSystem" checklist-model="distSystems">{{distSystem}}</label>
+					<label class="checkbox-inline no_indent" ng-repeat="distSystem in distSystemList"><input type="checkbox" checklist-value="distSystem" checklist-model="distSystems">{{distSystem}}</label>
 					<!-- <select multiple class="form-control" ng-model="distSystems">
 						<option value="{{distSystem}}" ng-repeat="distSystem in distSystemList">{{distSystem}}</option>
 					</select> -->
@@ -85,7 +103,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<p><strong>요청자/기획담당자</strong></p>
-					<label class="checkbox-inline" ng-repeat="author in authorList"><input type="checkbox" checklist-value="author.id" checklist-model="requesters">{{author.name}}</label>
+					<label class="checkbox-inline no_indent" ng-repeat="author in authorList"><input type="checkbox" checklist-value="author.id" checklist-model="requesters">{{author.name}}</label>
 					<!-- <label for="">요청자/기획담당자</label>
 					<select multiple class="form-control" ng-model="requesters">
 						<option value="{{author.id}}" ng-repeat="author in authorList">{{author.name}}</option>
@@ -175,6 +193,45 @@
 					</div>
 				</div>
 			</div>
+			<div class="modal fade" id="setting" ng-controller="OptionController">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4>옵션</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-md-12">
+									<label>변경작업시스템</label>
+									<select multiple class="form-control" ng-options="system as system for system in systemList" ng-model="changeSystems"></select>
+									<!-- <p><strong>변경작업시스템 선택</strong></p>
+									<label class="checkbox-inline no_indent" ng-repeat="system in systemList"><input type="checkbox" checklist-value="system" checklist-model="changeSystems">{{system}}</label> -->	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label>배포시스템</label>
+									<select multiple class="form-control" ng-options="distSystem as distSystem for distSystem in distSystemList" ng-model="distSystems"></select>
+									<!-- <p><strong>배포시스템 선택</strong></p>
+									<label class="checkbox-inline no_indent" ng-repeat="distSystem in distSystemList"><input type="checkbox" checklist-value="distSystem" checklist-model="distSystems">{{distSystem}}</label> -->		
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label>요청자/기획담당자</label>
+									<select multiple class="form-control" ng-options="author as author.name for author in authorList" ng-model="requesters"></select>
+									<!-- <p><strong>요청자/기획담당자 선택</strong></p>
+									<label class="checkbox-inline no_indent" ng-repeat="author in authorList"><input type="checkbox" checklist-value="author" checklist-model="requesters">{{author.name}}</label> -->
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-primary" ng-click="save()">저장</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<footer>
@@ -188,6 +245,7 @@
 		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script src="./js/bootstrap-datepicker.js"></script>
+		<script src="./js/store.min.js"></script>
 		<script src="./js/checklist-model.js"></script>
 		<script src="./js/app.js"></script>
 		<script src="./js/constants.js"></script>

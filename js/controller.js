@@ -3,16 +3,18 @@
 
     angular
         .module('buildnote')
-        .controller('InputController', InputController);
+        .controller('InputController', InputController)
+        .controller('OptionController', OptionController);
 
-    InputController.$inject = ['$scope', '$http', 'systemList', 'authorList', 'distSystemList'];
+    InputController.$inject = ['$scope', '$http', 'store', 'systemList', 'authorList', 'distSystemList'];
+    OptionController.$inject = ['$scope', 'store', 'systemList', 'authorList', 'distSystemList'];
 
-    function InputController($scope, $http, systemList, authorList, distSystemList) {
+    function InputController($scope, $http, store, systemList, authorList, distSystemList) {
     	$scope.user = {}
         $scope.buildNote = {};
 
         $scope.task = {}; // Redmine Task 정보
-        $scope.task.id = '111234';
+        // $scope.task.id = '111234';
         $scope.sql = {}; // SQL 
         $scope.dependency = {}
 
@@ -28,9 +30,17 @@
         $scope.buildComplete = buildComplete;
         $scope.register = register;
 
-        $scope.systemList = systemList;
-        $scope.authorList = authorList;
-        $scope.distSystemList = distSystemList;
+        var options = store.get('options');
+
+        if (typeof options !== 'undefined') {
+            $scope.systemList = options.systemList;
+            $scope.authorList = options.authorList;
+            $scope.distSystemList = options.distSystemList;
+        } else {
+            $scope.systemList = systemList;
+            $scope.authorList = authorList;
+            $scope.distSystemList = distSystemList;
+        }
 
         $.ajax({
             url: 'http://redmine.ssgadm.com/redmine/users/current.json',
@@ -163,4 +173,32 @@
             $scope.$apply();
         });
     }
+
+    function OptionController($scope, store, systemList, authorList, distSystemList) {
+        var options = store.get('options');
+        
+        $scope.systemList = systemList;
+        $scope.authorList = authorList;
+        $scope.distSystemList = distSystemList;
+
+        $scope.save = save;
+
+        if (typeof options !== 'undefined') {
+            $scope.changeSystems = options.systemList;
+            $scope.distSystems = options.distSystemList;
+            $scope.requesters = options.authorList;
+        }
+
+        function save() {
+            var newOptions = {};
+            newOptions.systemList = $scope.changeSystems;
+            newOptions.distSystemList = $scope.distSystems;
+            newOptions.authorList = $scope.requesters;
+            
+            store.set('options', newOptions);
+
+            // alert('옵션이 설정되었습니다.');
+            location.reload();
+        }   
+    };
 })();
