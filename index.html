@@ -1,4 +1,5 @@
 <!doctype html>
+<<<<<<< HEAD
 <html lang="ko" ng-app="buildNote">
 	<head>
 		<meta charset="utf-8">
@@ -15,10 +16,29 @@
 			font-family:'맑은고딕', 'NanumGothic', 'MalgunGothic';
 		}
 		.form {
+=======
+<html lang="ko" ng-app="buildnote">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>빌드노트 생성기</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="./css/datepicker3.css">
+		<style type="text/css">
+		body {
+			font-family: '맑은 고딕', 'NanumGothic', 'MalgunGothic';
+		}
+		header .container .row .col-md-12{
+			border-bottom: 1px solid #eee;
+		}
+		.container {
+>>>>>>> origin/gh-pages
 			width: 1000px;
 			margin: auto;
 			margin-top: 20px;
 		}
+<<<<<<< HEAD
 		</style>
 	</head>
 	<body>
@@ -289,5 +309,247 @@
 		</form>
 		
 		<script src="./js/app.js"></script>
+=======
+		.row {
+			margin-bottom: 10px;
+		}
+		textarea {
+			white-space: nowrap;
+		}
+		.checkbox-inline.no_indent {
+			margin-left: 0;
+			margin-right: 10px;
+		}
+		</style>
+	</head>
+	<body ng-controller="InputController">
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<h4>ssg buildnote helper for developer</h4>	
+					</div>
+					<div class="col-md-6">
+						<a href="#" class="btn pull-right" data-toggle="modal" data-target="#setting"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2">
+					<label for="">Redmine Task</label>
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Redmine #" ng-model="task.id">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="redmineSearch('task')"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<label for="">Redmine 내역</label>
+					<input type="text" class="form-control" placeholder="Redmine 내역" ng-model="task.subject" readonly>
+				</div>
+				<div class="col-md-3">
+					<label for="">개발기간 시작일</label>
+					<input type="text" id="startDate" class="form-control datepicker" placeholder="YYYY-MM-DD" ng-model="task.start_date">
+				</div>
+				<div class="col-md-3">
+					<label for="">배포일</label>
+					<input type="text" id="dueDate" class="form-control datepicker" placeholder="YYYY-MM-DD" ng-model="task.due_date">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<label for="">개발/빌드 담당자</label>
+					<input type="text" class="form-control" placeholder="개발/빌드 담당자" ng-model="task.assigned_to.name">
+				</div>
+				<div class="col-md-3">
+					<label for="">QA 반영일자</label>
+					<input type="text" id="qaDate" class="form-control datepicker" placeholder="YYYY-MM-DD" ng-model="task.qa_date">
+				</div>
+				<div class="col-md-3"></div>
+				<div class="col-md-3"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p><strong>변경작업시스템</strong></p>
+					<label class="checkbox-inline no_indent" ng-repeat="system in systemList"><input type="checkbox" checklist-value="system" checklist-model="changeSystems">{{system}}</label>
+
+					
+					<!-- <select multiple class="form-control" ng-model="changeSystems">
+						<option value="{{system}}" ng-repeat="system in systemList">{{system}}</option>
+					</select> -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p><strong>배포시스템</strong></p>
+					<label class="checkbox-inline no_indent" ng-repeat="distSystem in distSystemList"><input type="checkbox" checklist-value="distSystem" checklist-model="distSystems">{{distSystem}}</label>
+					<!-- <select multiple class="form-control" ng-model="distSystems">
+						<option value="{{distSystem}}" ng-repeat="distSystem in distSystemList">{{distSystem}}</option>
+					</select> -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p><strong>요청자/기획담당자</strong></p>
+					<label class="checkbox-inline no_indent" ng-repeat="author in authorList"><input type="checkbox" checklist-value="author.id" checklist-model="requesters">{{author.name}}</label>
+					<!-- <label for="">요청자/기획담당자</label>
+					<select multiple class="form-control" ng-model="requesters">
+						<option value="{{author.id}}" ng-repeat="author in authorList">{{author.name}}</option>
+					</select> -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<label>영향받는 시스템명</label>
+					<input type="text" class="form-control" ng-model="dependency.system">
+				</div>
+				<div class="col-md-4">
+					<label for="">영향받는 기능/영역</label>
+					<input type="text" class="form-control" ng-model="dependency.scope">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<label for="">SQL Redmine Task</label>
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="sql.id">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="redmineSearch('sql')"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<label for="">제목</label>
+					<input type="text" class="form-control" placeholder="제목" ng-model="sql.subject">
+				</div>
+				<div class="col-md-2">
+					<label>상태</label>
+					<input type="text" class="form-control" placeholder="상태" ng-model="sql.status.name">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label>기획자 테스트 요구사항</label>
+					<textarea class="form-control" rows="4" placeholder="한 줄에 요구사항 한개씩 작성해주세요." ng-model="requirements" ng-list="&#10;" ng-trim="false"></textarea>	
+				</div>
+				<div class="col-md-6">
+					<label>소스 파일 경로</label>
+					<textarea class="form-control" rows="4" placeholder="한 줄에 파일 한개씩 작성해주세요." ng-model="files" ng-list="&#10;" ng-trim="false"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<p><strong>배포유형</strong></p>
+					<label class="radio-inline"><input type="radio" name="distType" value="War" ng-model="distType">War</label>
+					<label class="radio-inline"><input type="radio" name="distType" value="Jar" ng-model="distType">Jar</label>
+				</div>
+				<div class="col-md-4">
+					<label for="">QA WAR 버전</label>
+					<input type="text" class="form-control" placeholder="QA WAR Version" ng-model="qaVersion">
+				</div>
+				<div class="col-md-4">
+					<label for="">유의사항</label>
+					<input type="text" class="form-control" placeholder="유의사항" ng-model="consideration">
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-danger btn-block" ng-click="buildComplete()" data-toggle="modal" data-target="#buildNote">등록</button>
+				</div>
+			</div>
+			<div class="modal fade" id="buildNote">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title">곧 레드마인에 등록됩니다.</h4>
+						</div>
+						<div class="modal-body">
+							<label>제목</label>
+							<input type="text" class="form-control" ng-model="buildNote.subject">
+							<label>담당자</label>
+							<select class="form-control" ng-model="buildNote.assigned_to_id">
+								<option value="{{author.id}}" ng-repeat="author in authorList">{{author.name}}</option>
+							</select>
+							<label>내용</label>
+							<textarea class="form-control" rows="30" ng-model="buildNote.desc"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" ng-click="register()">레드마인에 등록</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="setting" ng-controller="OptionController">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4>옵션</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-md-12">
+									<label>변경작업시스템</label>
+									<select multiple class="form-control" ng-options="system as system for system in systemList" ng-model="changeSystems"></select>
+									<!-- <p><strong>변경작업시스템 선택</strong></p>
+									<label class="checkbox-inline no_indent" ng-repeat="system in systemList"><input type="checkbox" checklist-value="system" checklist-model="changeSystems">{{system}}</label> -->	
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label>배포시스템</label>
+									<select multiple class="form-control" ng-options="distSystem as distSystem for distSystem in distSystemList" ng-model="distSystems"></select>
+									<!-- <p><strong>배포시스템 선택</strong></p>
+									<label class="checkbox-inline no_indent" ng-repeat="distSystem in distSystemList"><input type="checkbox" checklist-value="distSystem" checklist-model="distSystems">{{distSystem}}</label> -->		
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label>요청자/기획담당자</label>
+									<select multiple class="form-control" ng-options="author as author.name for author in authorList" ng-model="requesters"></select>
+									<!-- <p><strong>요청자/기획담당자 선택</strong></p>
+									<label class="checkbox-inline no_indent" ng-repeat="author in authorList"><input type="checkbox" checklist-value="author" checklist-model="requesters">{{author.name}}</label> -->
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-primary" ng-click="save()">저장</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer>
+			<div class="container">
+				<p>SSG Buildnote Helper v0.1</p>
+				<p>문의: INFRA팀 임태현 사원 (<a href="mailto:nezz@shinsegae.com">nezz@shinsegae.com</a>)</p>
+				<!-- <p>Copyright Taehyun Im</p> -->
+			</div>
+		</footer>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src="./js/bootstrap-datepicker.js"></script>
+		<script src="./js/store.min.js"></script>
+		<script src="./js/checklist-model.js"></script>
+		<script src="./js/app.js"></script>
+		<script src="./js/constants.js"></script>
+		<script src="./js/controller.js"></script>
+		<!--<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-60165471-1', 'auto');
+		  ga('send', 'pageview');
+		</script>-->
+>>>>>>> origin/gh-pages
 	</body>
 </html>
