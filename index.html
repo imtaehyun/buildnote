@@ -65,23 +65,31 @@
 				<div class="col-md-3"></div>
 			</div>
 			<div class="row">
-				<div class="col-md-4">
-					<label for="">변경작업시스템</label>
-					<select multiple class="form-control" ng-model="changeSystems">
+				<div class="col-md-12">
+					<p><strong>변경작업시스템</strong></p>
+					<label class="checkbox-inline" ng-repeat="system in systemList"><input type="checkbox" checklist-value="system" checklist-model="changeSystems">{{system}}</label>
+					<!-- <select multiple class="form-control" ng-model="changeSystems">
 						<option value="{{system}}" ng-repeat="system in systemList">{{system}}</option>
-					</select>
+					</select> -->
 				</div>
-				<div class="col-md-4">
-					<label for="">배포시스템</label>
-					<select multiple class="form-control" ng-model="distSystems">
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p><strong>배포시스템</strong></p>
+					<label class="checkbox-inline" ng-repeat="distSystem in distSystemList"><input type="checkbox" checklist-value="distSystem" checklist-model="distSystems">{{distSystem}}</label>
+					<!-- <select multiple class="form-control" ng-model="distSystems">
 						<option value="{{distSystem}}" ng-repeat="distSystem in distSystemList">{{distSystem}}</option>
-					</select>
+					</select> -->
 				</div>
-				<div class="col-md-4">
-					<label for="">요청자/기획담당자</label>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p><strong>요청자/기획담당자</strong></p>
+					<label class="checkbox-inline" ng-repeat="author in authorList"><input type="checkbox" checklist-value="author.id" checklist-model="requesters">{{author.name}}</label>
+					<!-- <label for="">요청자/기획담당자</label>
 					<select multiple class="form-control" ng-model="requesters">
 						<option value="{{author.id}}" ng-repeat="author in authorList">{{author.name}}</option>
-					</select>
+					</select> -->
 				</div>
 			</div>
 			<div class="row">
@@ -125,11 +133,9 @@
 			</div>
 			<div class="row">
 				<div class="col-md-2">
-					<label for="">배포유형</label>
-					<div class="radio">
-						<label for=""><input type="radio" name="distType" value="War" ng-model="distType">War</label>
-						<label for=""><input type="radio" name="distType" value="Jar" ng-model="distType">Jar</label>
-					</div>
+					<p><strong>배포유형</strong></p>
+					<label class="radio-inline"><input type="radio" name="distType" value="War" ng-model="distType">War</label>
+					<label class="radio-inline"><input type="radio" name="distType" value="Jar" ng-model="distType">Jar</label>
 				</div>
 				<div class="col-md-4">
 					<label for="">QA WAR 버전</label>
@@ -182,10 +188,11 @@
 		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script src="./js/bootstrap-datepicker.js"></script>
+		<script src="./js/checklist-model.js"></script>
 		<script src="./js/app.js"></script>
 		<script src="./js/constants.js"></script>
 		<script src="./js/controller.js"></script>
-		<script>
+		<!--<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -193,6 +200,6 @@
 
 		  ga('create', 'UA-60165471-1', 'auto');
 		  ga('send', 'pageview');
-		</script>
+		</script>-->
 	</body>
 </html>

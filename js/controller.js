@@ -12,6 +12,7 @@
         $scope.buildNote = {};
 
         $scope.task = {}; // Redmine Task 정보
+        $scope.task.id = '111234';
         $scope.sql = {}; // SQL 
         $scope.dependency = {}
 
@@ -20,6 +21,7 @@
         $scope.requirements = new Array();
         $scope.distSystems = new Array();
         $scope.files = new Array();
+        $scope.distType = 'War';
 
         // function
         $scope.redmineSearch = redmineSearch;
